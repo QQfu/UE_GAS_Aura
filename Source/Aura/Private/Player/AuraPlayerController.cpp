@@ -4,10 +4,48 @@
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+}
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	
+	CursorTrace();
+}
+
+/**
+ * 获取光标下的物体并执行高亮和取消高亮
+ * 1. 获取光标碰撞结果
+ * 2. 设置上一帧的碰撞物体和当前帧的碰撞物体
+ * 3. 根据碰撞物体的结果设置是否执行高亮和取消高亮方法
+ *	- 若LastActor和ThisActor都不为null，且相同，不做任何操作
+ *	- 若LastActor和ThisActor都不为null，且不同，LastActor取消高亮，ThisActor高亮
+ *	- 若LastActor或ThisActor为null，不做任何操作
+ *	- 若LastActor不为null，LastActor取消高亮
+ *	- 若ThisActor不为null，ThisActor高亮
+ */
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHitResult);
+
+	LastActor = ThisActor;
+	ThisActor = Cast<IEnemyInterface>(CursorHitResult.GetActor());
+
+	if (LastActor && LastActor != ThisActor)
+	{
+		LastActor->UnHighlightActor();
+	}
+
+	if (ThisActor && ThisActor != LastActor)
+	{
+		ThisActor->HighlightActor();
+	}
 }
 
 void AAuraPlayerController::BeginPlay()
