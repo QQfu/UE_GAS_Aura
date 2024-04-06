@@ -9,6 +9,14 @@ AAuraCharacterBase::AAuraCharacterBase()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	/*
+	 * 初始化Components
+	 * 1. 武器 Weapon
+	 */
+	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
+	Weapon->SetupAttachment(GetMesh(), "DefaultHandWeaponSocket");
+	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 }
 
 // Called when the game starts or when spawned
