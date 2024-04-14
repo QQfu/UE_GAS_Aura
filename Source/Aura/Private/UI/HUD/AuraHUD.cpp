@@ -13,6 +13,9 @@ UAuraOverlayWidgetController* AAuraHUD::GetAuraOverlayWidgetController(const FAu
 	{
 		OverlayWidgetController = NewObject<UAuraOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(AwcParams);
+
+		//绑定 Attribute 变化后的操作函数
+		OverlayWidgetController->BindCallbacksToDependencies();
 	}
 
 	return OverlayWidgetController;
@@ -39,7 +42,12 @@ void AAuraHUD::InitOverlayWidget(UAbilitySystemComponent* ASC, UAttributeSet* AS
 	OverlayWidget = Cast<UAuraUserWidget>(UserWidget);
 
 	const FAuraWidgetControllerParams AuraWidgetControllerParams(ASC, AS, PC, PS);
-	OverlayWidget->SetWidgetController(GetAuraOverlayWidgetController(AuraWidgetControllerParams));
+
+	UAuraOverlayWidgetController* WidgetController = GetAuraOverlayWidgetController(AuraWidgetControllerParams);
+	OverlayWidget->SetWidgetController(WidgetController);
+
+	//广播初始属性值
+	WidgetController->BroadcastInitValues();
 
 	OverlayWidget->AddToViewport();
 }
