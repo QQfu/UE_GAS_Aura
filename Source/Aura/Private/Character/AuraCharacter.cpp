@@ -5,7 +5,9 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/HUD/AuraHUD.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -45,7 +47,8 @@ void AAuraCharacter::OnRep_PlayerState()
 
 /**
  * 1. 给AuraCharacter中的ASC和AS赋值
- * 2. 初始化Ability Actor Info
+ * 2. 初始化 Ability Actor Info
+ * 3. 初始化 OverlayWidget
  */
 void AAuraCharacter::InitAbilityActorInfo()
 {
@@ -56,4 +59,13 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AttributeSet = AuraPlayerState->GetAttributeSet();
 
 	AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+
+	//初始化OverlayWidget
+	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
+	{
+		if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
+		{
+			AuraHUD->InitOverlayWidget(AbilitySystemComponent, AttributeSet, AuraPlayerController, AuraPlayerState);
+		}
+	}
 }
