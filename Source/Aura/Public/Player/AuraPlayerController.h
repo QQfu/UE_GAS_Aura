@@ -6,8 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
-class IEnemyInterface;
 struct FInputActionValue;
+class IEnemyInterface;
 class UInputAction;
 class UInputMappingContext;
 
@@ -41,6 +41,6 @@ private:
 
 	//用于识别mouse cursor hover
 	void CursorTrace();
-	TObjectPtr<IEnemyInterface> LastActor;
-	TObjectPtr<IEnemyInterface> ThisActor;
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
 };
