@@ -48,7 +48,8 @@ void AAuraEffectActorImproved::ApplyEffectToTarget(AActor* TargetActor,
 	{
 		FGameplayEffectContextHandle GameplayEffectContextHandle = AbilitySystemComponent->MakeEffectContext();
 		GameplayEffectContextHandle.AddSourceObject(this);
-		const FGameplayEffectSpecHandle GameplayEffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1.f, GameplayEffectContextHandle);
+		const FGameplayEffectSpecHandle GameplayEffectSpecHandle =
+			AbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, EffectLevel, GameplayEffectContextHandle);
 		const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpecHandle.Data.Get());
 
 		//存储FActiveGameplayEffectHandle

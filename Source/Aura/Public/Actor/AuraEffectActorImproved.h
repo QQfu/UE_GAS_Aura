@@ -70,6 +70,9 @@ protected:
 	//用于存放FGameplayEffectSpecHandle的map
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandlesMap;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Applied Effects")
+	float EffectLevel = 1.f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
