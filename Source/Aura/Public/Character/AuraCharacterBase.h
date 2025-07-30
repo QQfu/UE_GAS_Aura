@@ -42,4 +42,9 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	/**
+	 * 作为父类方法拱子类重写
+	 */
+	virtual void InitAbilityActorInfo();
 };

@@ -40,6 +40,16 @@ void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InitAbilityActorInfo();
+}
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
+	Super::InitAbilityActorInfo();
+
 	//Init ability actor info
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	
+	//初始化绑定OnGameplayEffectAppliedDelegateToSelf
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
