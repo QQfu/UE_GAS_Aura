@@ -6,7 +6,13 @@
 void UAuraAbilitySystemComponent::EffectAppliedToSelf(UAbilitySystemComponent* AbilitySystemComponent,
 	const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
-	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Blue, FString("Effect Applied"));
+	//GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Blue, FString("Effect Applied"));
+
+	FGameplayTagContainer TagContainer;
+	EffectSpec.GetAllAssetTags(TagContainer);
+
+	EffectAssetTagsDelegate.Broadcast(TagContainer);
+	
 }
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()

@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/AuraOverlayWidgetController.h"
 
+#include "Ability/AuraAbilitySystemComponent.h"
 #include "Ability/AuraAttributeSet.h"
 
 /**
@@ -43,6 +44,26 @@ void UAuraOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxManaAttribute())
 		.AddUObject(this, &UAuraOverlayWidgetController::MaxManaChanged);
 	//Section end: 绑定函数
+
+	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTagsDelegate.AddLambda(
+		[this] (const FGameplayTagContainer& Container)
+		{
+			FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+			
+			for (const auto Tag : Container)
+			{
+				// FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
+				// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, Msg);
+
+				if (Tag.MatchesTag(MessageTag))
+				{
+					const FAssetTagMessageRow* Row = FindDataTableRowByTag<FAssetTagMessageRow>(AssetTagMessageDataTable, Tag);
+					TagToMessageWidgetDelegate.Broadcast(*Row);
+				}
+				
+			}
+		}
+	);
 }
 
 void UAuraOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
