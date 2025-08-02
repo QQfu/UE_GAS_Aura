@@ -33,7 +33,7 @@ protected:
 	 * 1. AbilitySystemComponent
 	 * 2. AttributeSet
 	 */
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;

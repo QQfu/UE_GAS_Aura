@@ -7,6 +7,7 @@
 #include "AbilitySystemInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UAttributeSet;
 class UAbilitySystemComponent;
 
@@ -47,4 +48,19 @@ protected:
 	 * 作为父类方法拱子类重写
 	 */
 	virtual void InitAbilityActorInfo();
+
+	/*
+	 * 增加一个GameplayEffect类用于初始化Primary Attributes
+	 */
+	UPROPERTY(EditAnywhere, BlueprintreadWrite, Category="Attribute|Primary Attribute")
+	TSubclassOf<UGameplayEffect> InitPrimaryAttributeEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintreadWrite, Category="Attribute|Secondary Attribute")
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributeEffect;
+
+	/*
+	 * 用于初始化attribute
+	 */
+	void InitAttributeFromGameplayEffect() const;
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> EffectClass, float Level) const;
 };
