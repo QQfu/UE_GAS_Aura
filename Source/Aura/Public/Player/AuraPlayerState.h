@@ -26,7 +26,10 @@ public:
 	 */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;}
-	
+	FORCEINLINE int32 GetCharacterLevel() const {return Level;};
+
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+
 protected:
 	/*
 	 * GAS
@@ -37,4 +40,10 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing= OnRep_Level)
+	int32 Level = 0;
+
+	UFUNCTION()
+	void OnRep_Level() const;
 };

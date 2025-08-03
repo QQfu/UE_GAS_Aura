@@ -46,6 +46,14 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 AAuraCharacter::GetCharacterLevel()
+{
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+
+	return AuraPlayerState->GetCharacterLevel();
+}
+
 /**
  * 1. 给AuraCharacter中的ASC和AS赋值
  * 2. 初始化 Ability Actor Info
