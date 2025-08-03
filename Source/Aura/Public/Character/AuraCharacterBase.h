@@ -50,13 +50,16 @@ protected:
 	virtual void InitAbilityActorInfo();
 
 	/*
-	 * 增加一个GameplayEffect类用于初始化Primary Attributes
+	 * 增加GameplayEffect类用于初始化Primary Attributes, Secondary Attributes, Vital Attributes
 	 */
 	UPROPERTY(EditAnywhere, BlueprintreadWrite, Category="Attribute|Primary Attribute")
 	TSubclassOf<UGameplayEffect> InitPrimaryAttributeEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintreadWrite, Category="Attribute|Secondary Attribute")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributeEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintreadWrite, Category="Attribute|Vital Attribute")
+	TSubclassOf<UGameplayEffect> InitVitalAttributeEffect;
 
 	/*
 	 * 用于初始化attribute
