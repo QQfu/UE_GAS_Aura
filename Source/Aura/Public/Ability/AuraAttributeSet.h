@@ -50,6 +50,8 @@ struct FAuraEffectProperties
 	ACharacter* TargetCharacter = nullptr;
 };
 
+template<class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 
 /**
  * 
@@ -61,6 +63,9 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 
 public:
 	UAuraAttributeSet();
+
+	//创建一个Map用于存放AttributeTag和GetAttribute方法的映射关系
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> AttributeTagsToStaticFuncPtr;
 	
 	/* Start vital attribute definition */
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

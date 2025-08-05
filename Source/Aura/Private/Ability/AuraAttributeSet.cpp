@@ -2,10 +2,22 @@
 
 
 #include "Ability/AuraAttributeSet.h"
+
+#include "AuraGameplayTags.h"
 #include "Net/UnrealNetwork.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
+	//初始化属性映射
+	const FAuraGameplayTags AuraGameplayTags = FAuraGameplayTags::Get();
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Primary_Dexterity, GetDexterityAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Primary_Vigor, GetVigorAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Primary_Spirit, GetSpiritAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute);
+	AttributeTagsToStaticFuncPtr.Add(AuraGameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute);
+	
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

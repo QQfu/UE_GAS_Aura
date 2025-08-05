@@ -47,6 +47,7 @@ public:
 	void SetWidgetControllerParams(const FAuraWidgetControllerParams& WidgetControllerParams);
 
 	//用于广播初始化属性
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitValues();
 
 	//用于绑定 Attribute 变化时的处理函数

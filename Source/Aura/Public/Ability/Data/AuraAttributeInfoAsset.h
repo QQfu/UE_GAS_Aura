@@ -44,6 +44,6 @@ public:
 
 	//向外暴露的根据Tag获取AttributeInfo的方法
 	UFUNCTION(BlueprintCallable)
-	FAuraAttributeInfo GetAttributeInfoByTag(const FGameplayTag& Tag, bool bLogError) const;
+	FAuraAttributeInfo GetAttributeInfoByTag(const FGameplayTag& Tag, const bool bLogError = false) const;
 	
 };

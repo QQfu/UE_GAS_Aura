@@ -3,7 +3,7 @@
 
 #include "Ability/Data/AuraAttributeInfoAsset.h"
 
-FAuraAttributeInfo UAuraAttributeInfoAsset::GetAttributeInfoByTag(const FGameplayTag& Tag, bool bLogError) const
+FAuraAttributeInfo UAuraAttributeInfoAsset::GetAttributeInfoByTag(const FGameplayTag& Tag, const bool bLogError) const
 {
 	for (FAuraAttributeInfo Info : AttributeInformation)
 	{
