@@ -10,6 +10,21 @@
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
 	Super::BindCallbacksToDependencies();
+
+	if (const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet))
+	{
+		for (auto Pair : AuraAttributeSet->AttributeTagsToStaticFuncPtr)
+		{
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+				[this, Pair, AuraAttributeSet] (const FOnAttributeChangeData& Data)
+				{
+					FAuraAttributeInfo Info = AttributeInfoAsset->GetAttributeInfoByTag(Pair.Key);
+					Info.AttributeValue = Pair.Value().GetNumericValue(AuraAttributeSet);
+					AttributeChangeInfoDelegate.Broadcast(Info);
+				}
+			);
+		}
+	}
 }
 
 void UAttributeMenuWidgetController::BroadcastInitValues()

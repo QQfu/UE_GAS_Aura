@@ -18,10 +18,13 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 
 public:
 	FEffectAssetTagsDelegate EffectAssetTagsDelegate;
+
+	//Granting Abilities
+	void AddActorAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
 	
 protected:
 
-	void EffectAppliedToSelf(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+	void EffectAppliedToSelf(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle) const;
 
 public:
 	

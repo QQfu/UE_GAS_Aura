@@ -3,6 +3,7 @@
 
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystemComponent.h"
+#include "Ability/AuraAbilitySystemComponent.h"
 
 // Sets default values
 AAuraCharacterBase::AAuraCharacterBase()
@@ -23,6 +24,16 @@ AAuraCharacterBase::AAuraCharacterBase()
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AAuraCharacterBase::AddCharacterAbilities() const
+{
+	if (!HasAuthority()) return;
+
+	if (UAuraAbilitySystemComponent* ASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		ASC->AddActorAbilities(StartupAbilities);
+	}
 }
 
 // Called when the game starts or when spawned
