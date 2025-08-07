@@ -32,4 +32,13 @@ void FAuraGameplayTags::InitAuraNativeGameplayTags()
 	Instance.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.BlockChance"), FString("Chance to block a hit."));
 	Instance.Attributes_Secondary_BlockBonus = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.BlockBonus"), FString("Reduces the damage when block a hit."));
 	Instance.Attributes_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalHitResistance"), FString("Decreases the chance of critical hit when get damage."));
+
+	//初始化Input Tags
+	Instance.Input_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.LMB"), FString("Input for left mouse button."));
+	Instance.Input_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.RMB"), FString("Input for right mouse button."));
+	Instance.Input_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.1"), FString("Input for keyboard 1."));
+	Instance.Input_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.2"), FString("Input for keyboard 2."));
+	Instance.Input_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.3"), FString("Input for keyboard 3."));
+	Instance.Input_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.4"), FString("Input for keyboard 4."));
+	Instance.Input_C = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.C"), FString("Input for keyboard C."));
 }
