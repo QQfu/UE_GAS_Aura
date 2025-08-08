@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Input/AuraInputDataAsset.h"
 #include "AuraPlayerController.generated.h"
 
 struct FInputActionValue;
@@ -30,6 +31,10 @@ protected:
 
 	virtual void SetupInputComponent() override;
 
+	//定义InputActionConfigDataAsset用于指定输入按键的绑定
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UAuraInputDataAsset* InputDataAsset;
+
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
@@ -43,4 +48,9 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+
+	//创建三个函数用于绑定按键，持续按键，释放按键的操作
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 };
