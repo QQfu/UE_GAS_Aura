@@ -64,7 +64,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
 	}
 }
 
-void UAuraAbilitySystemComponent::EffectAppliedToSelf(UAbilitySystemComponent* AbilitySystemComponent,
+void UAuraAbilitySystemComponent::Client_EffectAppliedToSelf_Implementation(UAbilitySystemComponent* AbilitySystemComponent,
                                                       const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle) const
 {
 	//GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Blue, FString("Effect Applied"));
@@ -78,5 +78,5 @@ void UAuraAbilitySystemComponent::EffectAppliedToSelf(UAbilitySystemComponent* A
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
-	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::EffectAppliedToSelf);
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::Client_EffectAppliedToSelf);
 }

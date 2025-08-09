@@ -7,6 +7,7 @@
 #include "Input/AuraInputDataAsset.h"
 #include "AuraPlayerController.generated.h"
 
+class USplineComponent;
 struct FInputActionValue;
 class IEnemyInterface;
 class UInputAction;
@@ -58,4 +59,31 @@ private:
 	//AuraAbilitySystemComponent变量和Get方法
 	UAuraAbilitySystemComponent* AuraASC;
 	UAuraAbilitySystemComponent* GetAuraASC();
+
+	/**
+	 * 角色移动所需要的变量
+	* a.缓存的目标坐标：FVector CachedDestination
+	* b.持续按键的时间：float FollowTime
+	* c.判定为短按的时间：float ShortPressThreshold
+	* d.判定为需要自动寻路的标记：bool bIsAutoRunning
+	* e.判定需要停止寻路的距离：float AutoRunAcceptanceRadius
+	* f.样条线：USplineComponent Spline
+	* g.当前鼠标悬浮位置是否有敌人：bIsTargeting
+	 */
+	FVector CachedDestination = FVector::Zero();
+	float FollowTime = 0.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float ShortPressThreshold = 0.2f;
+	bool bIsAutoRunning = false;
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float AutoRunAcceptanceRadius = 50.f;
+	UPROPERTY(VisibleAnywhere)
+	USplineComponent* Spline;
+	bool bIsTargeting = false;
+
+	//计算AutoRunning的方法
+	void AutoRun();
+
+	//定义一个类变量用于存放每帧获取的鼠标位置
+	FHitResult CursorHitResult;
 };
