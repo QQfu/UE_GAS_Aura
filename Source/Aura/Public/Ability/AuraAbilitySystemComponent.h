@@ -21,6 +21,11 @@ public:
 
 	//Granting Abilities
 	void AddActorAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilities);
+
+	//三个方法用于处理Input Pressed、Input Held、Input Release
+	void AbilityInputTagPressed(const FGameplayTag& InputTag);
+	void AbilityInputTagReleased(const FGameplayTag& InputTag);
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	
 protected:
 

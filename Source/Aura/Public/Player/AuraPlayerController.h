@@ -11,6 +11,7 @@ struct FInputActionValue;
 class IEnemyInterface;
 class UInputAction;
 class UInputMappingContext;
+class UAuraAbilitySystemComponent;
 
 /**
  * 
@@ -53,4 +54,8 @@ private:
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
 	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	//AuraAbilitySystemComponent变量和Get方法
+	UAuraAbilitySystemComponent* AuraASC;
+	UAuraAbilitySystemComponent* GetAuraASC();
 };
