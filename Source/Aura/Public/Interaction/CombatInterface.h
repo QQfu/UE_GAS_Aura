@@ -24,4 +24,7 @@ class AURA_API ICombatInterface
 public:
 
 	virtual int32 GetCharacterLevel();
+
+	//获取投射物发射位置
+	virtual FVector GetProjectileEmitLocation();
 };

@@ -173,17 +173,20 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 				CachedDestination = CursorHitResult.Location;
 				if (FollowTime >= ShortPressThreshold)
 				{
+					bIsAutoRunning = false;
 					const FVector Direction = (CachedDestination - GetPawn()->GetActorLocation()).GetSafeNormal();
 					GetPawn()->AddMovementInput(Direction);
 				}
 			}
 		}
 	}
-
-	if (GetAuraASC())
+	else
 	{
-		//把具体的处理逻辑交给AuraAbilitySystemComponent，实现解耦。
-		GetAuraASC()->AbilityInputTagHeld(InputTag);
+		if (GetAuraASC())
+		{
+			//把具体的处理逻辑交给AuraAbilitySystemComponent，实现解耦。
+			GetAuraASC()->AbilityInputTagHeld(InputTag);
+		}
 	}
 }
 

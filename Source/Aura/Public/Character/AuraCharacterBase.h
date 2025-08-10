@@ -38,6 +38,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	//用于蓝图端设置投射物发射位置的插槽名称
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName ProjectTileEmitSocketName;
+
 	/*
 	 * GAS
 	 * 1. AbilitySystemComponent

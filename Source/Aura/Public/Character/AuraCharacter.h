@@ -24,6 +24,10 @@ public:
 
 	/** Start Combat Interface*/
 	virtual int32 GetCharacterLevel() override;
+
+	//实现GetProjectileEmitLocation返回投射物的发射位置
+	virtual FVector GetProjectileEmitLocation() override;
+	
 	/** End Combat Interface*/
 
 private:

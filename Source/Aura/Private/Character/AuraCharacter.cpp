@@ -57,6 +57,13 @@ int32 AAuraCharacter::GetCharacterLevel()
 	return AuraPlayerState->GetCharacterLevel();
 }
 
+//返回武器插槽的位置
+FVector AAuraCharacter::GetProjectileEmitLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(ProjectTileEmitSocketName);
+}
+
 /**
  * 1. 给AuraCharacter中的ASC和AS赋值
  * 2. 初始化 Ability Actor Info
