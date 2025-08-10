@@ -11,27 +11,33 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
                                            const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+	
+}
 
+/**
+ * 利用SpawnActorDeferred创建Projectile
+ * 1. 定义FTransform参数
+ * 2. 定义FTransform中的location
+ * 3. 定义FTransform中的rotation
+ * 4. 调用SpawnActorDeferred
+ * 5. 设置Gameplay Effect
+ * 6. 调用FinishSpawning
+ */
+void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation) 
+{
 	//如果不是服务器端，则直接推出
-	if (!HasAuthority(&ActivationInfo)) return;
-
-	//利用SpawnActorDeferred创建Projectile
-	/**
-	 * 1. 定义FTransform参数
-	 * 2. 定义FTransform中的location
-	 * 3. 定义FTransform中的rotation
-	 * 4. 调用SpawnActorDeferred
-	 * 5. 设置Gameplay Effect
-	 * 6. 调用FinishSpawning
-	 */
+	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
+	
 	check(ProjectileClass);
 
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
 		FTransform Transform;
 		//设置Location
-		Transform.SetLocation(CombatInterface->GetProjectileEmitLocation());
+		const FVector StartLocation = CombatInterface->GetProjectileEmitLocation();
+		Transform.SetLocation(StartLocation);
 		//TODO:设置Rotation
+		Transform.SetRotation((TargetLocation - StartLocation).GetSafeNormal().ToOrientationQuat());
 
 		//设置projectile
 		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(

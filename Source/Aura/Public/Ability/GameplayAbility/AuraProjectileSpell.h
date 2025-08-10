@@ -23,5 +23,9 @@ protected:
 	//定义一个AuraProjectile类型的变量，用于在蓝图端定义实际关联的投射物
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile")
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	//定义一个蓝图函数用于生成投射物
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void SpawnProjectile(const FVector& TargetLocation);
 	
 };
