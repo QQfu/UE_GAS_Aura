@@ -44,6 +44,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> InputAction_Move;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> InputAction_LeftAlt;
+
 	void Move(const FInputActionValue& InputActionValue);
 
 	//用于识别mouse cursor hover
@@ -86,4 +89,9 @@ private:
 
 	//定义一个类变量用于存放每帧获取的鼠标位置
 	FHitResult CursorHitResult;
+
+	//定义Left Alt相关的变量和方法
+	bool bIsLeftAlt = false;
+	void LeftAltPressed() {bIsLeftAlt = true;}
+	void LeftAltReleased() {bIsLeftAlt = false;}
 };

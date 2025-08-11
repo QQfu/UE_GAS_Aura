@@ -78,7 +78,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	{
 		// 只有在瞄准敌人时，才用鼠标左键打断自动寻路。
 		// 如果是点击地面，我们的意图是开始一段新的寻路，不应在此处打断。
-		if (bIsTargeting)
+		if (bIsTargeting || bIsLeftAlt)
 		{
 			bIsAutoRunning = false;
 		}
@@ -104,7 +104,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	*/
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB))
 	{
-		if (bIsTargeting)
+		if (bIsTargeting || bIsLeftAlt)
 		{
 			if (GetAuraASC())
 			{
@@ -156,7 +156,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	*/
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().Input_LMB))
 	{
-		if (bIsTargeting)
+		if (bIsTargeting || bIsLeftAlt)
 		{
 			if (GetAuraASC())
 			{
@@ -265,6 +265,8 @@ void AAuraPlayerController::SetupInputComponent()
 	 */
 	UAuraEnhancedInputComponent* EnhancedInputComponent = CastChecked<UAuraEnhancedInputComponent>(InputComponent);
 	EnhancedInputComponent->BindAction(InputAction_Move, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+	EnhancedInputComponent->BindAction(InputAction_LeftAlt, ETriggerEvent::Started, this, &AAuraPlayerController::LeftAltPressed);
+	EnhancedInputComponent->BindAction(InputAction_LeftAlt, ETriggerEvent::Completed, this, &AAuraPlayerController::LeftAltReleased);
 
 	//绑定Ability Actions，对应按键，持续按键，释放按键
 	EnhancedInputComponent->BindAbilityActions(InputDataAsset, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);

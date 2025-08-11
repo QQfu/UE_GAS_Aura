@@ -36,8 +36,10 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 		//设置Location
 		const FVector StartLocation = CombatInterface->GetProjectileEmitLocation();
 		Transform.SetLocation(StartLocation);
-		//TODO:设置Rotation
-		Transform.SetRotation((TargetLocation - StartLocation).GetSafeNormal().ToOrientationQuat());
+		//设置Rotation
+		FRotator Rotation = (TargetLocation - StartLocation).Rotation();
+		Rotation.Pitch = 0.f; 
+		Transform.SetRotation(Rotation.Quaternion());
 
 		//设置projectile
 		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
