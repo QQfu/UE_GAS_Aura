@@ -4,6 +4,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "Ability/AuraAbilitySystemComponent.h"
+#include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -23,6 +24,9 @@ AAuraCharacterBase::AAuraCharacterBase()
 
 	//设置人物mesh和胶囊体的碰撞忽略摄像机
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	//设置与Projectile Overlap
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 
 }
