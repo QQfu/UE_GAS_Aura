@@ -27,7 +27,7 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	CapturedVigorMagnitude = FMath::Max(CapturedVigorMagnitude, 0.f);
 
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
-	const int32 CharacterLevel = CombatInterface->GetCharacterLevel();
+	const int32 CharacterLevel = CombatInterface->GetCharacterLevel_Implementation();
 
 	//计算并返回实际数值
 	return MaxHealthConfig.BaseValue + MaxHealthConfig.VigorCoefficient * CapturedVigorMagnitude + MaxHealthConfig.LevelCoefficient * CharacterLevel;

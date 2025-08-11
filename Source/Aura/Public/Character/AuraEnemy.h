@@ -26,7 +26,7 @@ public:
 	/**End Enemy Interface*/
 
 	/**Start Combat Interface*/
-	virtual int32 GetCharacterLevel() override;
+	virtual int32 GetCharacterLevel_Implementation() const override;
 	/**End Combat Interface*/
 
 protected:

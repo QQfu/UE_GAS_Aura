@@ -23,10 +23,10 @@ public:
 	virtual void OnRep_PlayerState() override;
 
 	/** Start Combat Interface*/
-	virtual int32 GetCharacterLevel() override;
+	virtual int32 GetCharacterLevel_Implementation() const override;
 
 	//实现GetProjectileEmitLocation返回投射物的发射位置
-	virtual FVector GetProjectileEmitLocation() override;
+	virtual FVector GetProjectileEmitLocation_Implementation() const override;
 	
 	/** End Combat Interface*/
 

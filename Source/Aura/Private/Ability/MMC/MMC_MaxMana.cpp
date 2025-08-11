@@ -27,7 +27,7 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 	CapturedSpiritMagnitude = FMath::Max(CapturedSpiritMagnitude, 0.f);
 
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
-	const int32 CharacterLevel = CombatInterface->GetCharacterLevel();
+	const int32 CharacterLevel = CombatInterface->GetCharacterLevel_Implementation();
 
 	//计算并返回实际数值
 	return MaxManaConfig.BaseValue + MaxManaConfig.SpiritCoefficient * CapturedSpiritMagnitude + MaxManaConfig.LevelCoefficient * CharacterLevel;

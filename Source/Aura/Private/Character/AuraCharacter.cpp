@@ -49,7 +49,7 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
-int32 AAuraCharacter::GetCharacterLevel()
+int32 AAuraCharacter::GetCharacterLevel_Implementation() const 
 {
 	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
@@ -58,7 +58,7 @@ int32 AAuraCharacter::GetCharacterLevel()
 }
 
 //返回武器插槽的位置
-FVector AAuraCharacter::GetProjectileEmitLocation()
+FVector AAuraCharacter::GetProjectileEmitLocation_Implementation() const 
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(ProjectTileEmitSocketName);
