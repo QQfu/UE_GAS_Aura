@@ -6,6 +6,8 @@
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "Ability/AuraAttributeSet.h"
 #include "Aura/Aura.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/AuraUserWidget.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -20,6 +22,10 @@ AAuraEnemy::AAuraEnemy()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+	//初始化HealthBar
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetMesh());
 }
 
 void AAuraEnemy::HighlightActor()
@@ -46,6 +52,9 @@ void AAuraEnemy::BeginPlay()
 	Super::BeginPlay();
 
 	InitAbilityActorInfo();
+
+	//为HealthBar绑定属性变化的回调函数
+	BindHealthBarAttributeChangeDelegates();
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
@@ -57,4 +66,43 @@ void AAuraEnemy::InitAbilityActorInfo()
 	
 	//初始化绑定OnGameplayEffectAppliedDelegateToSelf
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+	//Temp Work：利用AuraCharacter初始化属性的方式来初始化Enemy的属性
+	InitAttributeFromGameplayEffect();
+}
+
+void AAuraEnemy::BindHealthBarAttributeChangeDelegates()
+{
+	//将HealthBar的Widget Controller绑定为自己
+	if (UAuraUserWidget* UserWidget = Cast<UAuraUserWidget>(HealthBar->GetWidget()))
+	{
+		UserWidget->SetWidgetController(this);
+	}
+
+	/**
+	 * 1. 获取AttributeSet
+	 * 2. 获取AbilitySystemComponent
+	 * 3. 绑定AttributeChangeDelete
+	 * 4. 广播Health和MaxHealth
+	 */
+	if (const UAuraAttributeSet* AS = Cast<UAuraAttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetHealthAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetMaxHealthAttribute()).AddLambda(
+			[this] (const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		//初始化时，广播一次当前的属性值，必须在InitAbilityActorInfo之后调用
+		OnHealthChanged.Broadcast(AS->GetHealth());
+		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+	}
 }

@@ -27,5 +27,9 @@ protected:
 	//定义一个蓝图函数用于生成投射物
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SpawnProjectile(const FVector& TargetLocation);
+
+	//定义一个GameplayEffect Class变量用于蓝图端编辑Damage Effect
+	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	TSubclassOf<UGameplayEffect> DamageEffect;
 	
 };

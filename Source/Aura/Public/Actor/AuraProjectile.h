@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "GameFramework/Actor.h"
 #include "NiagaraComponent.h"
 #include "AuraProjectile.generated.h"
@@ -25,6 +26,11 @@ public:
 
 	//定义replicate策略
 	bool bIsReplicate = true;
+
+	//定义一个EffectSpecHandle用于存放DamageEffectSpecHandle
+	//ExposeOnSpawn = true:使蓝图中使用这个类生成实例时，可以通过暴露此引脚来直接输入DamageEffectSpecHandle
+	UPROPERTY(BlueprintReadWrite, Category = "Effects", meta = (ExposeOnSpawn = true))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
 
 protected:
 	// Called when the game starts or when spawned
@@ -58,7 +64,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	TObjectPtr<UAudioComponent> ProjectileFlyAudioComponent;
 
-
 	//重写Destroy函数，如果客户端提前接收到了Destroy的Replication，那么需要执行一次PerformSphereOnBeginOverlap方法后再Destroy。
 	virtual void Destroy();
 
@@ -66,6 +71,8 @@ protected:
 private:
 	//用于指定碰撞逻辑
 	void PerformSphereOnBeginOverlap();
+	//定义一个函数用于处理Damage Effect
+	void PerformDamageEffect(AActor* TargetActor);
 	//用于客户端存放PerformSphereOnBeginOverlap是否已经被执行过了
 	bool bHasPerformedSphereOnBeginOverlap = false;
 	

@@ -6,6 +6,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/WidgetController/AuraOverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
 /**
@@ -34,6 +35,18 @@ protected:
 
 	virtual void InitAbilityActorInfo() override;
 
+	void BindHealthBarAttributeChangeDelegates();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 Level = 1;
+
+	//定义一个WidgetComponent用于使用HealthBar
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<class UWidgetComponent> HealthBar;
+
+	//定义两个delegate用于广播 Health change 和 MaxHealth change
+	UPROPERTY(BlueprintAssignable)
+	FOnFloatAttributeChangedSignature OnHealthChanged;
+	UPROPERTY(BlueprintAssignable)
+	FOnFloatAttributeChangedSignature OnMaxHealthChanged;
 };

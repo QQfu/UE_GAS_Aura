@@ -2,6 +2,9 @@
 
 
 #include "Actor/AuraProjectile.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -56,7 +59,12 @@ void AAuraProjectile::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCompon
 
 	if (HasAuthority())
 	{
-		//服务器端，Destroy自身
+		//服务器端
+		/**
+		 * 1. 施加DamageEffect(施加Gameplay Effect的行为，应该只在服务器端处理)
+		 * 2. Destroy
+		 */
+		PerformDamageEffect(OtherActor);
 		Destroy();
 	}
 	else
@@ -82,7 +90,7 @@ void AAuraProjectile::Destroy()
  */
 void AAuraProjectile::PerformSphereOnBeginOverlap() 
 {
-	//生成Niagara视效
+	//1. 生成Niagara视效
 	if (ProjectileHitEffect)
 	{
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ProjectileHitEffect, GetActorLocation());
@@ -101,10 +109,24 @@ void AAuraProjectile::PerformSphereOnBeginOverlap()
 	}
 }
 
+void AAuraProjectile::PerformDamageEffect(AActor* TargetActor)
+{
+	/**
+	 * 1. 获取TargetActor的ASC
+	 * 2. 利用ASC施加DamageEffect
+	 */
+	if (TargetActor)
+	{
+		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+		{
+			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+		}
+	}
+}
+
 // Called every frame
 void AAuraProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 

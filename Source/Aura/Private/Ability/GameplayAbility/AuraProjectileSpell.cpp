@@ -3,6 +3,8 @@
 
 #include "Ability/GameplayAbility/AuraProjectileSpell.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 
@@ -49,7 +51,23 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-		//TODO:设置 Gameplay Effect
+		//设置 Damage Gameplay Effect
+		/**
+		 * 1. 获取ASC
+		 * 2. 生成EffectContext
+		 * 3. 生成EffectSpecHandle
+		 * 4. 为Projectile的DmageEffectSpecHandle
+		 */
+		if (DamageEffect)
+		{
+			if (const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo()))
+			{
+				FGameplayEffectContextHandle Context = SourceASC->MakeEffectContext();
+				Context.AddSourceObject(GetAvatarActorFromActorInfo());
+				const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect, GetAbilityLevel(), Context);
+				Projectile->DamageEffectSpecHandle = SpecHandle;
+			}
+		}
 
 		//生成Projectile
 		Projectile->FinishSpawning(Transform);
