@@ -26,6 +26,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FTargetDataUnderMouseCursorSignature  OnTargetDataReady;
 
+	//定义一个哨兵变量用于控制task是否结束
+	bool bIsFinished = false;
+
 protected:
 	//重写Activate函数
 	virtual void Activate() override;

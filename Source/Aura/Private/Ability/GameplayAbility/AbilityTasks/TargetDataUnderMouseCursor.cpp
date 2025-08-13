@@ -58,14 +58,22 @@ void UTargetDataUnderMouseCursor::OnTargetDataReplicatedCallback(const FGameplay
 	}
 
 	// 这个任务已经完成了它的使命。
-	EndTask();
+	if (!bIsFinished)
+	{
+		bIsFinished = true;
+		EndTask();
+	}
 }
 
 void UTargetDataUnderMouseCursor::OnTargetDataCancelledCallback()
 {
 	// 客户端取消了目标选择。
 	// 无论如何，任务都应该结束。
-	EndTask();
+	if (!bIsFinished)
+	{
+		bIsFinished = true;
+		EndTask();
+	}
 }
 
 void UTargetDataUnderMouseCursor::OnDestroy(bool bInOwnerFinished)
@@ -125,6 +133,10 @@ void UTargetDataUnderMouseCursor::SendMouseCursorData()
 	}
 
 	//结束任务，不能漏掉！
-	EndTask();
+	if (!bIsFinished)
+	{
+		bIsFinished = true;
+		EndTask();
+	}
 	
 }
