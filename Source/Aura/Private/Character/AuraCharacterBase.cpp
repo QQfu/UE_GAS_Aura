@@ -64,6 +64,10 @@ void AAuraCharacterBase::InitAttributeFromGameplayEffect() const
 	ApplyEffectToSelf(InitVitalAttributeEffect, 1.f);
 }
 
+void AAuraCharacterBase::InitAttributeFromCharacterClassInfo() const
+{
+}
+
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> EffectClass, float Level) const
 {
 	UAbilitySystemComponent* Asc = GetAbilitySystemComponent();

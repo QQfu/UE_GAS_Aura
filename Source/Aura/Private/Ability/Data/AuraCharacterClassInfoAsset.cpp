@@ -3,3 +3,7 @@
 
 #include "Ability/Data/AuraCharacterClassInfoAsset.h"
 
+FCharacterClassInfo UAuraCharacterClassInfoAsset::GetCharacterClassInfo(ECharacterClass CharacterClass) const
+{
+	return CharacterClassDefaultMap.FindChecked(CharacterClass);
+}

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Ability/Data/AuraCharacterClassInfoAsset.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/EnemyInterface.h"
@@ -49,4 +50,11 @@ protected:
 	FOnFloatAttributeChangedSignature OnHealthChanged;
 	UPROPERTY(BlueprintAssignable)
 	FOnFloatAttributeChangedSignature OnMaxHealthChanged;
+
+	//定义一个变量指定Character Class
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	ECharacterClass CharacterClass;
+
+	//重写方法进行属性初始化
+	virtual void InitAttributeFromCharacterClassInfo() const override;
 };

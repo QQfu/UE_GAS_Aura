@@ -73,6 +73,7 @@ protected:
 	 * 用于初始化attribute
 	 */
 	void InitAttributeFromGameplayEffect() const;
+	virtual void InitAttributeFromCharacterClassInfo() const;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> EffectClass, float Level) const;
 
 	//用于存放初始化的技能

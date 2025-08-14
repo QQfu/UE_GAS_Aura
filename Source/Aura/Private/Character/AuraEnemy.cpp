@@ -5,6 +5,7 @@
 
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "Ability/AuraAttributeSet.h"
+#include "Ability/Library/AuraAbilitySystemFunctionLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
@@ -68,7 +69,13 @@ void AAuraEnemy::InitAbilityActorInfo()
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
 	//Temp Work：利用AuraCharacter初始化属性的方式来初始化Enemy的属性
-	InitAttributeFromGameplayEffect();
+	//InitAttributeFromGameplayEffect();
+
+	//根据Character Class来初始化属性
+	InitAttributeFromCharacterClassInfo();
+
+	const UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(AttributeSet);
+	UE_LOG(LogTemp, Warning, TEXT("%s, %s, %f"), *GetName(), *AuraAttributeSet->GetStrengthAttribute().GetName(), AuraAttributeSet->GetStrength());
 }
 
 void AAuraEnemy::BindHealthBarAttributeChangeDelegates()
@@ -105,4 +112,14 @@ void AAuraEnemy::BindHealthBarAttributeChangeDelegates()
 		OnHealthChanged.Broadcast(AS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
 	}
+}
+
+void AAuraEnemy::InitAttributeFromCharacterClassInfo() const
+{
+	Super::InitAttributeFromCharacterClassInfo();
+
+	/**
+	 * 调用AuraAbilitySystemFunctionLibrary::InitCharacterDefaultAttributes进行初始化
+	 */
+	UAuraAbilitySystemFunctionLibrary::InitCharacterDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }

@@ -48,4 +48,8 @@ public:
 	//定义一个GameplayEffect用于初始化Vital Attribute
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class|Attribute Common")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributeEffect;
+
+	//定义一个函数，用于根据ECharacterClass获取FCharacterClassInfo
+	UFUNCTION(BlueprintCallable)
+	FCharacterClassInfo GetCharacterClassInfo(ECharacterClass CharacterClass) const;
 };
