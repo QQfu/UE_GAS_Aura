@@ -52,6 +52,9 @@ public:
 	FGameplayTag Input_4;
 	FGameplayTag Input_C;
 
+	//Set By Call Magnitude Tags
+	FGameplayTag Damage;
+
 protected:
 
 private:

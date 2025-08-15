@@ -41,4 +41,7 @@ void FAuraGameplayTags::InitAuraNativeGameplayTags()
 	Instance.Input_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.3"), FString("Input for keyboard 3."));
 	Instance.Input_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.4"), FString("Input for keyboard 4."));
 	Instance.Input_C = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Input.C"), FString("Input for keyboard C."));
+
+	//初始化Set By Caller Tags
+	Instance.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage Set By Caller Magnitude Tag."));
 }

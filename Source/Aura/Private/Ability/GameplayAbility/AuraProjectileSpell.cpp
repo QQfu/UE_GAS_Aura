@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 
@@ -32,7 +33,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 	
 	check(ProjectileClass);
 
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
 		FTransform Transform;
 		//设置Location
@@ -65,6 +66,10 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 				FGameplayEffectContextHandle Context = SourceASC->MakeEffectContext();
 				Context.AddSourceObject(GetAvatarActorFromActorInfo());
 				const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect, GetAbilityLevel(), Context);
+
+				//为Damage标签设置Set By Caller Magnitude的值
+				const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+				UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, 10.f);
 				Projectile->DamageEffectSpecHandle = SpecHandle;
 			}
 		}

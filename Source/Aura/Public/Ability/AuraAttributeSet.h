@@ -237,6 +237,14 @@ public:
 	
 	/*End Secondary Attribute Definition*/
 
+
+	/*Start Meta Attribute Definition*/
+	//定义一个IncomingDamage的属性用于计算伤害
+	UPROPERTY(BlueprintReadOnly, Category= "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+	/*End Meta Attribute Definition*/
+
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 

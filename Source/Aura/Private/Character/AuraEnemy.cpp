@@ -75,7 +75,7 @@ void AAuraEnemy::InitAbilityActorInfo()
 	InitAttributeFromCharacterClassInfo();
 
 	const UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(AttributeSet);
-	UE_LOG(LogTemp, Warning, TEXT("%s, %s, %f"), *GetName(), *AuraAttributeSet->GetStrengthAttribute().GetName(), AuraAttributeSet->GetStrength());
+	//UE_LOG(LogTemp, Warning, TEXT("%s, %s, %f"), *GetName(), *AuraAttributeSet->GetStrengthAttribute().GetName(), AuraAttributeSet->GetStrength());
 }
 
 void AAuraEnemy::BindHealthBarAttributeChangeDelegates()

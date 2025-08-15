@@ -219,12 +219,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(),0.f, GetMaxHealth()));
-		UE_LOG(LogTemp, Warning, TEXT("Health changed by %s, to %s, Magnitude: %f, NewValue: %f, MaxHealth: %f."), *EffectProperties.SourceAvatarActor->GetName(), *EffectProperties.TargetAvatarActor->GetName(), Data.EvaluatedData.Magnitude, GetHealth(), GetMaxHealth());
+		//UE_LOG(LogTemp, Warning, TEXT("Health changed by %s, to %s, Magnitude: %f, NewValue: %f, MaxHealth: %f."), *EffectProperties.SourceAvatarActor->GetName(), *EffectProperties.TargetAvatarActor->GetName(), Data.EvaluatedData.Magnitude, GetHealth(), GetMaxHealth());
 	}
 
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	}
+
+	//Temp Work: 展示Incoming Damage的信息
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Incoming Damage: %f; Current Value: %f"), Data.EvaluatedData.Magnitude, GetIncomingDamage());
+		SetIncomingDamage(0.f);
 	}
 }
 
