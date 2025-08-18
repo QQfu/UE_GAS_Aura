@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "AuraCharacterClassInfoAsset.generated.h"
 
+class UGameplayAbility;
 class UGameplayEffect;
 //定义一个枚举存放Character Class的类型枚举
 UENUM(BlueprintType)
@@ -48,6 +49,10 @@ public:
 	//定义一个GameplayEffect用于初始化Vital Attribute
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class|Attribute Common")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributeEffect;
+
+	//定义Common Ability变量，用于蓝图端指定所有共有能力
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
 
 	//定义一个函数，用于根据ECharacterClass获取FCharacterClassInfo
 	UFUNCTION(BlueprintCallable)

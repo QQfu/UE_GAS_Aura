@@ -33,4 +33,8 @@ public:
 	//Motion Warping
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
 	void SetFacingTarget(const FVector& TargetLocation);
+
+	//定义函数用于取出Hit React的Montage
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+	UAnimMontage* GetHitReactMontage() const;
 };

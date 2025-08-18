@@ -7,6 +7,7 @@
 #include "Engine/DataAsset.h"
 #include "AuraAttributeInfoAsset.generated.h"
 
+class UGameplayAbility;
 /**
  * 用于封装Attribute信息
  */

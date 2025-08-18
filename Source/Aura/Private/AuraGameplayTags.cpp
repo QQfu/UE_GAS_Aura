@@ -44,4 +44,7 @@ void FAuraGameplayTags::InitAuraNativeGameplayTags()
 
 	//初始化Set By Caller Tags
 	Instance.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage Set By Caller Magnitude Tag."));
+
+	//初始化 Tags for Tag Events
+	Instance.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Tag used to trigger Hit Reacting Event."));
 }

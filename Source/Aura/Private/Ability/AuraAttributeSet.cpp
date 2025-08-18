@@ -230,8 +230,22 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	//Temp Work: 展示Incoming Damage的信息
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Incoming Damage: %f; Current Value: %f"), Data.EvaluatedData.Magnitude, GetIncomingDamage());
+		const float LocalIncomingDamage = GetIncomingDamage();
+		UE_LOG(LogTemp, Warning, TEXT("Incoming Damage: %f; Current Value: %f"), Data.EvaluatedData.Magnitude, LocalIncomingDamage);
 		SetIncomingDamage(0.f);
+
+		//利用IncomingDamage的信息修改Health的值，并激活HitReact Ability
+		if (LocalIncomingDamage > 0.f)
+		{
+			SetHealth(FMath::Clamp(GetHealth() - LocalIncomingDamage, 0.f, GetMaxHealth()));
+
+			if (GetHealth() > 0.f)
+			{
+				FGameplayTagContainer Container;
+				Container.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				EffectProperties.TargetASC->TryActivateAbilitiesByTag(Container);
+			}
+		}
 	}
 }
 

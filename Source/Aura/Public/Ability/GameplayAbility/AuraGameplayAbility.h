@@ -18,5 +18,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	FGameplayTag StartupInputTag;
+
+	//定义技能的基础伤害，BaseDamage，用于在蓝图端指定对应的Curve Table
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
+	FScalableFloat BaseDamage;
 	
 };

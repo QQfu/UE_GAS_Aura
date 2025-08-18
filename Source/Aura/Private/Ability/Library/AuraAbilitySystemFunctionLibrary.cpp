@@ -93,3 +93,23 @@ void UAuraAbilitySystemFunctionLibrary::InitCharacterDefaultAttributes(const UOb
 		}
 	}
 }
+
+void UAuraAbilitySystemFunctionLibrary::GiveCommonAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+	{
+		if (const UAuraCharacterClassInfoAsset* ClassInfoAsset = GameMode->AuraCharacterClassInfoAsset)
+		{
+			TArray<TSubclassOf<UGameplayAbility>> CommonAbilities = ClassInfoAsset->CommonAbilities;
+
+			if (ASC)
+			{
+				for (const TSubclassOf<UGameplayAbility> Ability : CommonAbilities)
+				{
+					FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability,1.f);
+					ASC->GiveAbility(AbilitySpec);
+				}
+			}
+		}
+	}
+}

@@ -3,6 +3,7 @@
 
 #include "Character/AuraEnemy.h"
 
+#include "AuraGameplayTags.h"
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "Ability/AuraAttributeSet.h"
 #include "Ability/Library/AuraAbilitySystemFunctionLibrary.h"
@@ -48,6 +49,11 @@ int32 AAuraEnemy::GetCharacterLevel_Implementation() const
 	return Level;
 }
 
+UAnimMontage* AAuraEnemy::GetHitReactMontage_Implementation() const
+{
+	return HitReactMontage;
+}
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
@@ -56,6 +62,9 @@ void AAuraEnemy::BeginPlay()
 
 	//为HealthBar绑定属性变化的回调函数
 	BindHealthBarAttributeChangeDelegates();
+
+	//绑定Tag Event
+	BindTagEventDelegates();
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
@@ -76,6 +85,9 @@ void AAuraEnemy::InitAbilityActorInfo()
 
 	const UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(AttributeSet);
 	//UE_LOG(LogTemp, Warning, TEXT("%s, %s, %f"), *GetName(), *AuraAttributeSet->GetStrengthAttribute().GetName(), AuraAttributeSet->GetStrength());
+
+	//初始化Common Ability
+	UAuraAbilitySystemFunctionLibrary::GiveCommonAbilities(this, AbilitySystemComponent);
 }
 
 void AAuraEnemy::BindHealthBarAttributeChangeDelegates()
@@ -114,6 +126,12 @@ void AAuraEnemy::BindHealthBarAttributeChangeDelegates()
 	}
 }
 
+void AAuraEnemy::BindTagEventDelegates()
+{
+	//为Effects.HitReact绑定Tag Event对应的函数
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::PerformHitReactByTagChange);
+}
+
 void AAuraEnemy::InitAttributeFromCharacterClassInfo() const
 {
 	Super::InitAttributeFromCharacterClassInfo();
@@ -122,4 +140,8 @@ void AAuraEnemy::InitAttributeFromCharacterClassInfo() const
 	 * 调用AuraAbilitySystemFunctionLibrary::InitCharacterDefaultAttributes进行初始化
 	 */
 	UAuraAbilitySystemFunctionLibrary::InitCharacterDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+}
+
+void AAuraEnemy::PerformHitReactByTagChange(const FGameplayTag Tag, int32 Count)
+{
 }

@@ -30,4 +30,7 @@ public:
 	//定义静态方法用于初始化默认属性值
 	UFUNCTION(BlueprintCallable, Category = "AbilitySystem|BlueprintFunctionLibrary")
 	static void InitCharacterDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
+
+	//定义静态方法用于初始化Common Ability
+	static void GiveCommonAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
 };

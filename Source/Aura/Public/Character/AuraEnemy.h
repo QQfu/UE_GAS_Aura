@@ -29,6 +29,7 @@ public:
 
 	/**Start Combat Interface*/
 	virtual int32 GetCharacterLevel_Implementation() const override;
+	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
 	/**End Combat Interface*/
 
 protected:
@@ -37,9 +38,16 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 
 	void BindHealthBarAttributeChangeDelegates();
+	void BindTagEventDelegates();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 Level = 1;
+
+	/*Start 定义动画资产*/
+	//定义HitReact Montage
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
+	/*End 定义动画资产*/
 
 	//定义一个WidgetComponent用于使用HealthBar
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -57,4 +65,8 @@ protected:
 
 	//重写方法进行属性初始化
 	virtual void InitAttributeFromCharacterClassInfo() const override;
+
+	//定义一个函数用于处理HitReact相关的逻辑
+	UFUNCTION()
+	void PerformHitReactByTagChange(const FGameplayTag Tag, int32 Count);
 };

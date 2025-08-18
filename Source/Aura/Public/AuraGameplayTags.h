@@ -55,6 +55,9 @@ public:
 	//Set By Call Magnitude Tags
 	FGameplayTag Damage;
 
+	//Tags for Tag Events
+	FGameplayTag Effects_HitReact;
+
 protected:
 
 private:

@@ -69,7 +69,9 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 
 				//为Damage标签设置Set By Caller Magnitude的值
 				const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
-				UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, 10.f);
+				//从BaseDamage中取出对应的基础伤害值
+				const float BaseDamageMagnitude = BaseDamage.GetValueAtLevel(GetAbilityLevel());
+				UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, BaseDamageMagnitude);
 				Projectile->DamageEffectSpecHandle = SpecHandle;
 			}
 		}
