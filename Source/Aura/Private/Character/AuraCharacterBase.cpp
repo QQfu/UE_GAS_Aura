@@ -79,3 +79,53 @@ void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> EffectCl
 	const FGameplayEffectSpecHandle EffectSpecHandle = Asc->MakeOutgoingSpec(EffectClass, Level, EffectContextHandle);
 	Asc->ApplyGameplayEffectSpecToTarget(*EffectSpecHandle.Data.Get(), Asc);
 }
+
+void AAuraCharacterBase::PerformDie()
+{
+	/**
+	 * 1. 卸载武器
+	 * 2. 调用MulticastHandleDeath
+	 */
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	PerformDissolve();
+	MulticastHandleDeath();
+}
+
+void AAuraCharacterBase::PerformDissolve()
+{
+	/**
+	 * 1. 生成动态材质
+	 * 2. 为骨骼体和武器替换材质
+	 * 3. 调用Timeline函数
+	 */
+	if (DissolveMaterialInstance && WeaponDissolveMaterialInstance)
+	{
+		UMaterialInstanceDynamic* InstanceDynamic = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		UMaterialInstanceDynamic* WeaponInstanceDynamic = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+
+		GetMesh()->SetMaterial(0, InstanceDynamic);
+		Weapon->SetMaterial(0, WeaponInstanceDynamic);
+
+		DissolveTimeline(InstanceDynamic);
+		WeaponDissolveTimeline(WeaponInstanceDynamic);
+	}
+}
+
+void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+{
+	/**
+	 * 1. 设置武器碰撞
+	 * 2. 设置骨骼碰撞
+	 * 3. 设置胶囊体碰撞
+	 */
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}

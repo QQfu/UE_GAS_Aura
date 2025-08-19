@@ -145,3 +145,12 @@ void AAuraEnemy::InitAttributeFromCharacterClassInfo() const
 void AAuraEnemy::PerformHitReactByTagChange(const FGameplayTag Tag, int32 Count)
 {
 }
+
+void AAuraEnemy::PerformDie()
+{
+
+	//设置LifeSpan
+	SetLifeSpan(LifeSpan);
+	
+	Super::PerformDie();
+}

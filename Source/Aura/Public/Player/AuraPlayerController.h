@@ -7,6 +7,7 @@
 #include "Input/AuraInputDataAsset.h"
 #include "AuraPlayerController.generated.h"
 
+class UFloatingTextWidgetComponent;
 class USplineComponent;
 struct FInputActionValue;
 class IEnemyInterface;
@@ -27,6 +28,9 @@ public:
 
 	virtual void PlayerTick(float DeltaTime) override;
 
+	//定义函数用于显示Floating Text
+	void ShowFloatingText(float Number, AActor* Target);
+
 protected:
 	
 	virtual void BeginPlay() override;
@@ -36,6 +40,10 @@ protected:
 	//定义InputActionConfigDataAsset用于指定输入按键的绑定
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UAuraInputDataAsset* InputDataAsset;
+
+	//定义FloatingTextWidgetComponent用于蓝图端指定浮动伤害数字的Widget Component
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Floating Text")
+	TSubclassOf<UFloatingTextWidgetComponent> FloatingTextWidgetComponentClass;
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")

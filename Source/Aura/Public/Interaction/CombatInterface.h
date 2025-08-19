@@ -37,4 +37,7 @@ public:
 	//定义函数用于取出Hit React的Montage
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
 	UAnimMontage* GetHitReactMontage() const;
+
+	//定义用于处理死亡的函数
+	virtual void PerformDie() = 0;
 };

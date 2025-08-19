@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
 class UGameplayAbility;
@@ -13,7 +14,7 @@ class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -79,4 +80,25 @@ protected:
 	//用于存放初始化的技能
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	//复写CombatInterface的函数处理死亡逻辑
+	virtual void PerformDie() override;
+	
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
+
+	//定义溶解材质，拱蓝图端指定
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UMaterialInstance* DissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UMaterialInstance* WeaponDissolveMaterialInstance;
+
+	//处理死亡溶解的逻辑
+	void PerformDissolve();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DissolveTimeline(UMaterialInstanceDynamic* Instance);
+	UFUNCTION(BlueprintImplementableEvent)
+	void WeaponDissolveTimeline(UMaterialInstanceDynamic* Instance);
 };

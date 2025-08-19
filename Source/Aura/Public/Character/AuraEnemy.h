@@ -14,7 +14,7 @@
  * 
  */
 UCLASS()
-class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface, public ICombatInterface
+class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
 
@@ -43,6 +43,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 Level = 1;
 
+	float LifeSpan = 5.f;
+
 	/*Start 定义动画资产*/
 	//定义HitReact Montage
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
@@ -69,4 +71,7 @@ protected:
 	//定义一个函数用于处理HitReact相关的逻辑
 	UFUNCTION()
 	void PerformHitReactByTagChange(const FGameplayTag Tag, int32 Count);
+
+	//处理死亡逻辑
+	virtual void PerformDie() override;
 };

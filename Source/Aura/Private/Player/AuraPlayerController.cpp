@@ -13,6 +13,7 @@
 #include "Ability/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/Widget/FloatingTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -270,6 +271,25 @@ void AAuraPlayerController::SetupInputComponent()
 
 	//绑定Ability Actions，对应按键，持续按键，释放按键
 	EnhancedInputComponent->BindAbilityActions(InputDataAsset, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);
+}
+
+void AAuraPlayerController::ShowFloatingText(float Number, AActor* Target)
+{
+	/**
+	 * 1. 生成UFloatingTextWidgetComponent
+	 * 2. Attach和Dettach
+	 * 3. 设置数字
+	 */
+	if (IsValid(Target) && FloatingTextWidgetComponentClass)
+	{
+		UFloatingTextWidgetComponent* FloatingTextWidgetComponent = NewObject<UFloatingTextWidgetComponent>(Target, FloatingTextWidgetComponentClass);
+		FloatingTextWidgetComponent->RegisterComponent();
+
+		FloatingTextWidgetComponent->AttachToComponent(Target->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		FloatingTextWidgetComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+
+		FloatingTextWidgetComponent->SetDamageText(Number);
+	}
 }
 
 /*

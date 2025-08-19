@@ -4,7 +4,10 @@
 #include "Ability/AuraAttributeSet.h"
 
 #include "AuraGameplayTags.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -239,11 +242,29 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		{
 			SetHealth(FMath::Clamp(GetHealth() - LocalIncomingDamage, 0.f, GetMaxHealth()));
 
+			//生命值大于0时，执行受击逻辑；生命值小于等于0时，执行死亡逻辑
 			if (GetHealth() > 0.f)
 			{
 				FGameplayTagContainer Container;
 				Container.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 				EffectProperties.TargetASC->TryActivateAbilitiesByTag(Container);
+			}
+			else
+			{
+				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(EffectProperties.TargetAvatarActor))
+				{
+					CombatInterface->PerformDie();
+				}
+			}
+
+			//显示浮动伤害数据
+			/**
+			 * 1. 获取Player Controller
+			 * 2. 调用ShowFloatingText
+			 */
+			if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(EffectProperties.SourceAvatarActor, 0)))
+			{
+				PC->ShowFloatingText(LocalIncomingDamage, EffectProperties.TargetAvatarActor);
 			}
 		}
 	}
