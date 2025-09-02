@@ -33,4 +33,7 @@ public:
 
 	//定义静态方法用于初始化Common Ability
 	static void GiveCommonAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+
+	//定义静态方法用于获取AuraCharacterClassInfoAsset
+	static UAuraCharacterClassInfoAsset* GetDamageCoefficients(const UObject* WorldContextObject);
 };

@@ -54,6 +54,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
 
+	//定义一个CurveTable用于存储计算伤害时需要用到的参数
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character Class|Damage")
+	TObjectPtr<UCurveTable> DamageCoefficient;
+
 	//定义一个函数，用于根据ECharacterClass获取FCharacterClassInfo
 	UFUNCTION(BlueprintCallable)
 	FCharacterClassInfo GetCharacterClassInfo(ECharacterClass CharacterClass) const;

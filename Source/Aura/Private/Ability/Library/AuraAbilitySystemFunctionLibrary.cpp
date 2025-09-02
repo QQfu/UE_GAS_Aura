@@ -113,3 +113,15 @@ void UAuraAbilitySystemFunctionLibrary::GiveCommonAbilities(const UObject* World
 		}
 	}
 }
+
+UAuraCharacterClassInfoAsset* UAuraAbilitySystemFunctionLibrary::GetDamageCoefficients(const UObject* WorldContextObject)
+{
+	if (const AAuraGameModeBase* GameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+	{
+		return GameMode->AuraCharacterClassInfoAsset;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
