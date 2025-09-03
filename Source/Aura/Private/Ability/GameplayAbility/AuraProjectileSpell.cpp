@@ -64,7 +64,11 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation)
 			if (const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo()))
 			{
 				FGameplayEffectContextHandle Context = SourceASC->MakeEffectContext();
-				Context.AddSourceObject(GetAvatarActorFromActorInfo());
+				Context.AddSourceObject(Projectile);
+				Context.SetAbility(this);
+				TArray<TWeakObjectPtr<AActor>> Actors;
+				Actors.Add(Projectile);
+				Context.AddActors(Actors);
 				const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect, GetAbilityLevel(), Context);
 
 				//为Damage标签设置Set By Caller Magnitude的值
