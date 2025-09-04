@@ -264,7 +264,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 			 */
 			if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(EffectProperties.SourceAvatarActor, 0)))
 			{
-				PC->ShowFloatingText(LocalIncomingDamage, EffectProperties.TargetAvatarActor);
+				PC->ShowFloatingText(LocalIncomingDamage, EffectProperties.TargetAvatarActor, EffectProperties.EffectContextHandle);
 			}
 		}
 	}

@@ -273,7 +273,7 @@ void AAuraPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAbilityActions(InputDataAsset, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);
 }
 
-void AAuraPlayerController::ShowFloatingText(float Number, AActor* Target)
+void AAuraPlayerController::ShowFloatingText(float Number, AActor* Target, const FGameplayEffectContextHandle& ContextHandle)
 {
 	/**
 	 * 1. 生成UFloatingTextWidgetComponent

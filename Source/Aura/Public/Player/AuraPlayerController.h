@@ -7,6 +7,7 @@
 #include "Input/AuraInputDataAsset.h"
 #include "AuraPlayerController.generated.h"
 
+struct FGameplayEffectContextHandle;
 class UFloatingTextWidgetComponent;
 class USplineComponent;
 struct FInputActionValue;
@@ -29,7 +30,7 @@ public:
 	virtual void PlayerTick(float DeltaTime) override;
 
 	//定义函数用于显示Floating Text
-	void ShowFloatingText(float Number, AActor* Target);
+	void ShowFloatingText(float Number, AActor* Target, const FGameplayEffectContextHandle& ContextHandle);
 
 protected:
 	

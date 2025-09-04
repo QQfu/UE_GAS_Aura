@@ -4,6 +4,7 @@
 #include "Ability/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayEffectTypes.h"
 #include "AuraGameplayTags.h"
 #include "Ability/AuraAttributeSet.h"
 #include "Ability/Library/AuraAbilitySystemFunctionLibrary.h"
@@ -63,6 +64,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
 
 	const FGameplayEffectSpec& OwningSpec = ExecutionParams.GetOwningSpec();
+	FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(OwningSpec.GetContext().Get());
 
 	FAggregatorEvaluateParameters EvaluateParams;
 	EvaluateParams.SourceTags = OwningSpec.CapturedSourceTags.GetAggregatedTags();
@@ -100,6 +102,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	FixedCriticalHitBonus = CriticalHitBonus * (1 - CriticalHitResistance / (CriticalHitResistance + CriticalHitCoefficient));
 
 	const bool bIsCriticalHit = FMath::RandRange(1,100) <= CriticalHitChance;
+	AuraEffectContext->SetIsCriticalHit(bIsCriticalHit);
 
 	float Damage = bIsCriticalHit ? IncomingDamage * (1 + 0.5 + FixedCriticalHitBonus / 100.f) : IncomingDamage;
 	
@@ -123,6 +126,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	//随机是否格挡成功
 	const bool bIsBlocked = FMath::RandRange(0, 100) <= TargetBlockChance;
+	AuraEffectContext->SetIsBlockedHit(bIsBlocked);
 
 	Damage = !bIsBlocked ? Damage : Damage * (100 - TargetBlockBonus) / 100.f;
 
